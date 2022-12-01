@@ -2,6 +2,7 @@ import { FormEvent, useState } from "react";
 import styles from "../styles/Home.module.css";
 import axios from "axios";
 import Router from "next/router";
+import Link from "next/link";
 const API_URL = process.env.API_URL;
 
 export default function Home() {
@@ -60,7 +61,7 @@ export default function Home() {
             Entrar
           </button>
           <hr />
-          <button className={styles.createAcc}>Criar conta</button>
+          <Link href={'/createAccount'}><button className={styles.createAcc}>Criar conta</button></Link>
         </div>
       </form>
     </div>

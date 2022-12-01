@@ -1,0 +1,62 @@
+.container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f2f5;
+}
+
+.loginBox {
+  background-color: rgb(255, 255, 255);
+  padding: 2em;
+  border-radius: 10px;
+}
+
+.loginBox h3 {
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+.loginBox span {
+  color: #f2ac3c;
+}
+
+.wrapperInputs {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+.wrapperInputs input {
+  margin-bottom: 1em;
+  padding: 0.8em;
+  border-radius: 5px;
+  border: 1px solid grey;
+}
+
+.loginButton {
+  padding: 0.7em;
+  width: 100%;
+  margin-top: 1em;
+  font-size: 1em;
+  border: none;
+  color: #fff;
+  font-weight: bolder;
+  border-radius: 5px;
+  background-color: #f2ac3c;
+  cursor: pointer;
+}
+
+.createAcc {
+  padding: 0.7em;
+  width: 100%;
+  margin-bottom: 1em;
+  background-color: #48cf2d;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bolder;
+  font-size: 1em;
+  cursor: pointer;
+}

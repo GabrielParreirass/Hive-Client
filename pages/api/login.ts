@@ -13,5 +13,5 @@ export default (req: any, res: any) => {
     })
   );
 
-  res.status(200).json({ message: "Success!" });
+  res.status(200).send('succes')
 };
