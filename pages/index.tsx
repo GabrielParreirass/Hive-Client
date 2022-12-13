@@ -1,8 +1,10 @@
 import { FormEvent, useState } from "react";
 import styles from "../styles/Home.module.css";
+import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import Router from "next/router";
 import Link from "next/link";
+import { ToastContainer, toast } from "react-toastify";
 const API_URL = process.env.API_URL;
 
 export default function Home() {
@@ -18,6 +20,18 @@ export default function Home() {
         password: password,
       })
       .then(async (res) => {
+        if (res.data == "") {
+          toast.warn("Dados incorretos!", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
         const token = res.data.token;
         const send = await fetch("/api/login", {
           method: "post",
@@ -27,8 +41,8 @@ export default function Home() {
           body: JSON.stringify({ token: token }),
         });
 
-        if(send.status == 200){
-          Router.push('/user')
+        if (send.status == 200) {
+          Router.push("/user");
         }
       });
 
@@ -38,6 +52,18 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className={styles.loginBox}>
           <h3>
@@ -61,7 +87,9 @@ export default function Home() {
             Entrar
           </button>
           <hr />
-          <Link href={'/createAccount'}><button className={styles.createAcc}>Criar conta</button></Link>
+          <Link href={"/createAccount"}>
+            <button className={styles.createAcc}>Criar conta</button>
+          </Link>
         </div>
       </form>
     </div>

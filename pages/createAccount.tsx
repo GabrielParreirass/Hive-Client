@@ -2,6 +2,9 @@ import axios from "axios";
 import Link from "next/link";
 import React, { FormEvent, useState } from "react";
 import styles from "../styles/CreateAcc.module.css";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+import Router from "next/router";
 const API_URL = process.env.API_URL
 
 function createAccount() {
@@ -22,8 +25,29 @@ function createAccount() {
             console.log(res)
         })
     } else {
-      window.alert("Senhas não estão iguais!");
+      toast.warn("Suas senhas não estão iguais!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
+
+    toast.success("Sua conta foi criada com sucesso!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+
 
     setEmail("")
     setPassword("")
@@ -33,6 +57,18 @@ function createAccount() {
 
   return (
     <div className={styles.container}>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className={styles.loginBox}>
           <h3>
