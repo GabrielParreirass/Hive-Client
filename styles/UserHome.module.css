@@ -6,6 +6,7 @@
   flex-direction: column;
   position: relative;
   height: 100vh;
+  background-color: #F0F2F5
 }
 
 .welcome h3 {
@@ -40,4 +41,22 @@
   margin-top: 1em;
   margin-bottom: 1em;
   text-align: left;
+  background-color: white;
+  padding: 2em;
+  border-radius: 3px;
+}
+
+.postHeader{
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-between;
+}
+
+.postAuthor{
+  color: #f2ac3c;
+  cursor: pointer;
+}
+
+.postAuthor:hover{
+  text-decoration: underline;
 }

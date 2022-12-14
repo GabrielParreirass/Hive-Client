@@ -5,7 +5,7 @@ import styles from "../styles/CreateAcc.module.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import Router from "next/router";
-const API_URL = process.env.API_URL
+const API_URL = process.env.API_URL;
 
 function createAccount() {
   const [username, setUsername] = useState("");
@@ -17,13 +17,41 @@ function createAccount() {
     e.preventDefault();
 
     if (password === passwordConfirm) {
-        axios.post(API_URL +'/createUser', {
-            username,
-            email,
-            password
-        }).then(res =>{
-            console.log(res)
+      axios
+        .post(API_URL + "/createUser", {
+          username,
+          email,
+          password,
         })
+        .then((res) => {
+          console.log(res);
+
+          if(res.data.create == false){
+            toast.warn(res.data.message, {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+          }else{
+            
+            toast.success(res.data.message, {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+          }
+
+        });
     } else {
       toast.warn("Suas senhas não estão iguais!", {
         position: "top-center",
@@ -37,22 +65,10 @@ function createAccount() {
       });
     }
 
-    toast.success("Sua conta foi criada com sucesso!", {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
-
-
-    setEmail("")
-    setPassword("")
-    setPasswordConfirm("")
-    setUsername("")
+    setEmail("");
+    setPassword("");
+    setPasswordConfirm("");
+    setUsername("");
   };
 
   return (

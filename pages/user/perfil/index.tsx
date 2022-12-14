@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 import Cookies from "js-cookie";
 const API_URL = process.env.API_URL;
-import styles from "../../styles/UserHome.module.css";
+import styles from "../../../styles/UserHome.module.css";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -29,19 +29,24 @@ function User({ userData }: any) {
   return (
     <div className={styles.MainContainer}>
       <div className={styles.welcome}>
-        <h3>
-          Esse é seu perfil, <span>{userData.userData.username}</span>
-        </h3>
-        {userData.userData.posts.map((post: {
-          title: string,
-          body: string
-        }) => (
-          <div>
-            <h3>{post.title}</h3>
-            <p>{post.body}</p>
-          </div>
-        ))}
+        <div>
+          <h2>
+            Esse é seu perfil, <span>{userData.userData.username}</span>
+          </h2>
+        </div>
       </div>
+        <div>
+          <h2>Seus posts:</h2>
+          {userData.userData.posts.map((post: {
+            title: string,
+            body: string
+          }) => (
+            <div>
+              <h3>{post.title}</h3>
+              <p>{post.body}</p>
+            </div>
+          ))}
+        </div>
 
       <div style={{marginTop:'2em'}}>
         <h2>Você é amigo de:</h2>
