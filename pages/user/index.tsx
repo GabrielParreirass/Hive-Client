@@ -76,11 +76,15 @@ function User({ data }: any) {
             progress: undefined,
             theme: "colored",
           });
+
+          Router.push("/user");
         }
       });
 
-    Router.push("/user");
+    
   };
+
+  const allUsersData = data.allUserData.reverse()
 
   return (
     <>
@@ -129,8 +133,8 @@ function User({ data }: any) {
 
         <div className={styles.postsContainer}>
           <h2>Posts mais recentes🔥</h2>
-          {data.allUserData.map((user: any) =>
-            user.posts.map((post: any) => (
+          {allUsersData.map((user: any) =>
+            user.posts.reverse().map((post: any) => (
               <div
                 className={styles.post}
                 
