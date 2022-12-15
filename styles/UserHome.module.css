@@ -6,7 +6,7 @@
   flex-direction: column;
   position: relative;
   height: 100vh;
-  background-color: #F0F2F5
+  background-color: #f0f2f5;
 }
 
 .welcome h3 {
@@ -46,17 +46,98 @@
   border-radius: 3px;
 }
 
-.postHeader{
+.postHeader {
   display: flex;
   flex-direction: column-reverse;
   justify-content: space-between;
 }
 
-.postAuthor{
+.postAuthor {
   color: #f2ac3c;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.postAuthor:hover {
+  text-decoration: underline;
+}
+
+
+.newPostButton button{
+  padding: 1.5em;
+  background-color: #f2ac3c;
+  color: white;
+  font-weight: bolder;
+  border: none;
+  font-size: 1em;
+  border-radius: 10px;
+  box-shadow: 1px 7px 10px grey;
   cursor: pointer;
 }
 
-.postAuthor:hover{
-  text-decoration: underline;
+.containerNewPost{
+  width: 50%;
+  height: 75%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #c4c4c4;
+  position: absolute;
+  z-index: 99;
+  box-shadow: 0px 15px 10px grey;
+  border-radius: 7px;
+}
+
+.closeBtn{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #f2ac3c;
+  height: 2.5em;
+  width: 2.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: white;
+  font-weight: bolder;
+  box-shadow: 1px 10px 10px grey;
+  cursor: pointer;
+}
+
+.containerNewPost form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.containerNewPost input{
+  border: 1px solid #000000;
+  background-color: transparent;
+  padding: .8em;
+  border-radius: 10px;
+  
+}
+
+.containerNewPost textarea{
+  background-color: transparent;
+  border: 1px solid #000000;
+  padding: .8em;
+  width: 50%;
+  border-radius: 10px;
+  font-size: 1.1em;
+}
+
+.buttonPublish{
+  padding: 1em;
+  margin-top: 2em;
+  background-color: #f2ac3c;
+  color: white;
+  font-size: 1em;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0px 10px 10px grey;
+  cursor: pointer;
 }

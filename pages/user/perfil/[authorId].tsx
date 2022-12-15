@@ -3,7 +3,7 @@ const API_URL = process.env.API_URL;
 import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
-import styles from '../../../styles/ThirdPerfil.module.css'
+import styles from "../../../styles/ThirdPerfil.module.css";
 
 export async function getStaticPaths() {
   const res = await fetch(API_URL + `/getUsers`);
@@ -56,12 +56,22 @@ function perfil({ data }: any) {
     );
   }
 
+  const posts = data.posts;
+
   return (
     <div className={styles.MainContainer}>
       <div>
-        <div>{data.username}</div>
-        <div>Amigos: {data.friends.length}</div>
-        <div>Posts: {data.posts.length}</div>
+        <div className={styles.username}><h3>Usuário: {data.username}</h3></div>
+        <div className={styles.friends}><h3>Amigos: {data.friends.length}</h3></div>
+        <div className={styles.posts}><h3>Posts: {data.posts.length}</h3></div>
+        <div className={styles.listPosts} id="list_posts">
+          {posts.map((post: any) => (
+            <div className={styles.post}>
+              <h3>{post.title}</h3>
+              <p>{post.body}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       <Link href={"/user"}>
