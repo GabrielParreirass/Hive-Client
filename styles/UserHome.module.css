@@ -6,7 +6,6 @@
   flex-direction: column;
   position: relative;
   height: fit-content;
-  background-color: #f0f2f5;
 }
 
 .welcome h2 {
@@ -20,7 +19,7 @@
 }
 
 .perfilIcon {
-  position: absolute;
+  position: fixed;
   height: 4em;
   width: 4em;
   border-radius: 50%;
@@ -47,7 +46,9 @@
   margin-bottom: 1em;
   text-align: left;
   background-color: white;
-  padding: 2em;
+  padding-left: 0em;
+  padding-right: 0em;
+  padding-top: 2em;
   border-radius: 3px;
   width: 50%;
 }
@@ -56,6 +57,9 @@
   display: flex;
   flex-direction: column-reverse;
   justify-content: space-between;
+  padding-bottom: 2em;
+  padding-left: 2em;
+  padding-right: 2em;
 }
 
 .postAuthor {
@@ -64,12 +68,17 @@
   width: fit-content;
 }
 
+.postBody {
+  padding-bottom: 2em;
+  padding-right: 2em;
+  padding-left: 2em;
+}
+
 .postAuthor:hover {
   text-decoration: underline;
 }
 
-
-.newPostButton button{
+.newPostButton button {
   padding: 1.5em;
   background-color: #f2ac3c;
   color: white;
@@ -81,7 +90,7 @@
   cursor: pointer;
 }
 
-.containerNewPost{
+.containerNewPost {
   width: 50%;
   height: 50%;
   display: none;
@@ -96,7 +105,7 @@
   border-radius: 7px;
 }
 
-.closeBtn{
+.closeBtn {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -120,24 +129,23 @@
   width: 100%;
 }
 
-.containerNewPost input{
+.containerNewPost input {
   border: 1px solid #000000;
   background-color: transparent;
-  padding: .8em;
+  padding: 0.8em;
   border-radius: 10px;
-  
 }
 
-.containerNewPost textarea{
+.containerNewPost textarea {
   background-color: transparent;
   border: 1px solid #000000;
-  padding: .8em;
+  padding: 0.8em;
   width: 50%;
   border-radius: 10px;
   font-size: 1.1em;
 }
 
-.buttonPublish{
+.buttonPublish {
   padding: 1em;
   margin-top: 2em;
   background-color: #f2ac3c;
@@ -147,4 +155,73 @@
   border: none;
   box-shadow: 0px 10px 10px grey;
   cursor: pointer;
+}
+
+.bottomPost {
+  display: flex;
+  justify-content: space-around;
+  background-color: #f2ac3c;
+  width: 100%;
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+  padding: 0.5em;
+  color: white;
+  font-weight: bolder;
+}
+
+.comments {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.likes {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapperInpComment{
+  margin-top: 1em;
+  padding: .2em;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.inputComment {
+  width: 80%;
+  padding: 0.2em;
+  border-right: none;
+  border-top: none;
+  border-left: none;
+  border-bottom: 1px solid black;
+}
+
+.buttonSendComment {
+  width: 10%;
+  background-color: #f2ac3c;
+  border: 1px solid black;
+  border-radius: 7px;
+  padding-inline-start: .2em;
+  cursor: pointer;
+}
+
+.comment{
+  display: flex;
+  margin-top: 1em;
+}
+
+.commentAuthor{
+  color: #f2ac3c;
+  font-weight: bolder;
+  padding-left: .5em;
+  padding-right: .5em;
+  cursor: pointer;
+}
+
+.commentAuthor:hover{
+  text-decoration: underline;
 }

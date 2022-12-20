@@ -36,10 +36,12 @@ function User({ data }: any) {
     modal.style.display = "none";
   }, []);
 
+  
+
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
-  const handleClickPost = (post: any) => {
+  const handleClickPost = (post: {authorId:string}) => {
     Router.push(`/user/perfil/${post.authorId}`);
   };
 
@@ -80,11 +82,31 @@ function User({ data }: any) {
           Router.push("/user");
         }
       });
-
-    
   };
 
-  const allUsersData = data.allUserData.reverse()
+
+  const handleSendComment = (
+    postId: string,
+    authorId: string,
+    authorUsername: string
+  ) => {
+    let input: any = document.getElementById(`input-comment-${postId}`);
+    axios.patch(API_URL + "/sendComment", {
+      comment: input.value,
+      postId: postId,
+      authorId: authorId,
+      authorUsername: authorUsername,
+    }).then(res => {
+      console.log(res)
+    });
+
+    Router.push("/user");
+    input.value = "";
+  };
+
+  const handleClickCommentAuthor = (comment:{authorId:string}) =>{
+    Router.push(`/user/perfil/${comment.authorId}`);
+  }
 
   return (
     <>
@@ -133,24 +155,89 @@ function User({ data }: any) {
 
         <div className={styles.postsContainer}>
           <h2>Posts mais recentes🔥</h2>
-          {allUsersData.map((user: any) =>
+          {data.allUserData.map((user: any) =>
             user.posts.reverse().map((post: any) => (
-              <div
-                className={styles.post}
-                
-              >
+              <div className={styles.post}>
                 <div className={styles.postHeader}>
                   <h2 className={styles.postTitle}>{post.title}</h2>
-                  <h2 className={styles.postAuthor} onClick={() => handleClickPost(post)}>
+                  <h2
+                    className={styles.postAuthor}
+                    onClick={() => handleClickPost(post)}
+                  >
                     {data.userData.id == user.id ? (
-                      <div>{user.username} (Você)</div>
+                      <div >{user.username} (Você)</div>
                     ) : (
-                      <div>{user.username}</div>
+                      <div >{user.username}</div>
                     )}
                   </h2>
                 </div>
 
                 <p className={styles.postBody}>{post.body}</p>
+                <div className={styles.bottomPost}>
+                  <div
+                    className={styles.comments}
+                  >
+                    <Image
+                      src={"/comment.png"}
+                      height="24"
+                      width="24"
+                      alt="comments"
+                    ></Image>
+                  </div>
+                  <div className={styles.likes}>
+                    <Image
+                      src={"/like.png"}
+                      height="24"
+                      width="24"
+                      alt="like"
+                    ></Image>
+                  </div>
+                </div>
+                <div className={styles.commentsContainer}>
+                  <div>
+                    {data.comments.map((comment: any) => (
+                      <div>
+                        {post.id == comment.postId ? (
+                          <div className={styles.comment}>
+                            {" "}
+                            {data.userData.id == comment.authorId ? (
+                              <p className={styles.commentAuthor} onClick={()=>{handleClickCommentAuthor(comment)}}>
+                                {comment.authorUsername} (Você):{" "}
+                              </p>
+                            ) : (
+                              <p className={styles.commentAuthor} onClick={()=>{handleClickCommentAuthor(comment)}}>
+                                {comment.authorUsername}:{" "}
+                              </p>
+                            )}
+                            {comment.comment}
+                          </div>
+                        ) : (
+                          <div></div>
+                        )}
+                      </div>
+                    ))}
+                    <div className={styles.wrapperInpComment}>
+                      <input
+                        type="text"
+                        className={styles.inputComment}
+                        placeholder="Deixe um comentário..."
+                        id={`input-comment-${post.id}`}
+                      />
+                      <button
+                        className={styles.buttonSendComment}
+                        onClick={() =>
+                          handleSendComment(
+                            post.id,
+                            data.userData.id,
+                            data.userData.username
+                          )
+                        }
+                      >
+                        Enviar
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             ))
           )}
