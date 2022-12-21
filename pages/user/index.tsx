@@ -36,12 +36,10 @@ function User({ data }: any) {
     modal.style.display = "none";
   }, []);
 
-  
-
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
-  const handleClickPost = (post: {authorId:string}) => {
+  const handleClickPost = (post: { authorId: string }) => {
     Router.push(`/user/perfil/${post.authorId}`);
   };
 
@@ -64,6 +62,7 @@ function User({ data }: any) {
         title: title,
         body: body,
         authorId: data.userData.id,
+        authorUsername: data.userData.username,
       })
       .then((res) => {
         console.log(res);
@@ -84,29 +83,32 @@ function User({ data }: any) {
       });
   };
 
-
   const handleSendComment = (
     postId: string,
     authorId: string,
     authorUsername: string
   ) => {
     let input: any = document.getElementById(`input-comment-${postId}`);
-    axios.patch(API_URL + "/sendComment", {
-      comment: input.value,
-      postId: postId,
-      authorId: authorId,
-      authorUsername: authorUsername,
-    }).then(res => {
-      console.log(res)
-    });
+    axios
+      .patch(API_URL + "/sendComment", {
+        comment: input.value,
+        postId: postId,
+        authorId: authorId,
+        authorUsername: authorUsername,
+      })
+      .then((res) => {
+        console.log(res);
+      });
 
     Router.push("/user");
     input.value = "";
   };
 
-  const handleClickCommentAuthor = (comment:{authorId:string}) =>{
+  const handleClickCommentAuthor = (comment: { authorId: string }) => {
     Router.push(`/user/perfil/${comment.authorId}`);
-  }
+  };
+
+  console.log(data);
 
   return (
     <>
@@ -155,8 +157,15 @@ function User({ data }: any) {
 
         <div className={styles.postsContainer}>
           <h2>Posts mais recentes🔥</h2>
-          {data.allUserData.map((user: any) =>
-            user.posts.reverse().map((post: any) => (
+          
+          {data.posts.map(
+            (post: {
+              authorId: string;
+              authorUsername: string;
+              id: string;
+              body: string;
+              title: string;
+            }) => (
               <div className={styles.post}>
                 <div className={styles.postHeader}>
                   <h2 className={styles.postTitle}>{post.title}</h2>
@@ -164,10 +173,10 @@ function User({ data }: any) {
                     className={styles.postAuthor}
                     onClick={() => handleClickPost(post)}
                   >
-                    {data.userData.id == user.id ? (
-                      <div >{user.username} (Você)</div>
+                    {data.userData.id == post.authorId ? (
+                      <div >{post.authorUsername}(Você)</div>
                     ) : (
-                      <div >{user.username}</div>
+                      <div >{post.authorUsername}</div>
                     )}
                   </h2>
                 </div>
@@ -239,7 +248,7 @@ function User({ data }: any) {
                   </div>
                 </div>
               </div>
-            ))
+            )
           )}
         </div>
 

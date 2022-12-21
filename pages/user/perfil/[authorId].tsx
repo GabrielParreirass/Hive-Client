@@ -25,13 +25,17 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(context: any) {
-  const { params } = context;
+  const { params, req } = context;
 
   const res = await fetch(API_URL + `/getUser/${params.authorId}`);
 
+  
+
+
   const data = await res.json();
 
-  console.log(res.status);
+
+
 
   return {
     props: {
@@ -60,10 +64,12 @@ function perfil({ data }: any) {
 
   return (
     <div className={styles.MainContainer}>
-      <div>
-        <div className={styles.username}><h3>Usuário: {data.username}</h3></div>
-        <div className={styles.friends}><h3>Amigos: {data.friends.length}</h3></div>
-        <div className={styles.posts}><h3>Posts: {data.posts.length}</h3></div>
+      
+        <div className={styles.wrapperHead}>
+          <div className={styles.username}><h3>Usuário: {data.username}</h3></div>
+          
+          <div className={styles.posts}><h3>Posts: {data.posts.length}</h3></div>
+        </div>
         <div className={styles.listPosts} id="list_posts">
           {posts.map((post: any) => (
             <div className={styles.post}>
@@ -72,7 +78,9 @@ function perfil({ data }: any) {
             </div>
           ))}
         </div>
-      </div>
+
+        <div className={styles.friends}><h3>Amigos: {data.friends.length}</h3></div>
+     
 
       <Link href={"/user"}>
         <div className={styles.homeButton}>
