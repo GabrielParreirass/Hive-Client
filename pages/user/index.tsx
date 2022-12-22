@@ -108,6 +108,38 @@ function User({ data }: any) {
     Router.push(`/user/perfil/${comment.authorId}`);
   };
 
+  const handleClickAddFriend = (
+    authorId: string,
+    authorUsername: string,
+    loggedUserId: string
+  ) => {
+    // axios
+    //   .post(API_URL + "/addFriend", {
+    //     friendId: authorId,
+    //     loggedUserId: loggedUserId,
+    //   })
+    //   .then((res) => {
+    //     console.log(res)
+    //   });
+
+    const isAlreadyFriend = data.userData.friends.findIndex(
+      (friend: { friendId: string }) => friend.friendId == authorId
+    );
+
+    if (isAlreadyFriend >= 0) {
+      console.log("Já é amigo dele");
+    } else {
+      console.log("Não é amigo dele ainda");
+    }
+
+    console.log({
+      authorId: authorId,
+      authorUsername: authorUsername,
+      loggedUserId: loggedUserId,
+      isAlreadyFriend,
+    });
+  };
+
   console.log(data);
 
   return (
@@ -157,7 +189,7 @@ function User({ data }: any) {
 
         <div className={styles.postsContainer}>
           <h2>Posts mais recentes🔥</h2>
-          
+
           {data.posts.map(
             (post: {
               authorId: string;
@@ -169,23 +201,64 @@ function User({ data }: any) {
               <div className={styles.post}>
                 <div className={styles.postHeader}>
                   <h2 className={styles.postTitle}>{post.title}</h2>
-                  <h2
-                    className={styles.postAuthor}
-                    onClick={() => handleClickPost(post)}
-                  >
-                    {data.userData.id == post.authorId ? (
-                      <div >{post.authorUsername}(Você)</div>
-                    ) : (
-                      <div >{post.authorUsername}</div>
-                    )}
-                  </h2>
+                  <div>
+                    <h2>
+                      {data.userData.id == post.authorId ? (
+                        <div
+                          className={styles.postAuthor}
+                          onClick={() => handleClickPost(post)}
+                        >
+                          {post.authorUsername} (Você)
+                        </div>
+                      ) : (
+                        <div>
+                          {data.userData.friends.findIndex(
+                            (friend: { friendId: string }) =>
+                              friend.friendId == post.authorId
+                          ) >= 0 ? (
+                            <div>
+                              <div className={styles.postHead}>
+                                <div
+                                  className={styles.postAuthor}
+                                  onClick={() => handleClickPost(post)}
+                                >
+                                  {post.authorUsername}
+                                </div>
+                                <button>Já é amigo</button>
+                              </div>
+                            </div>
+                          ) : (
+                            <div>
+                              <div className={styles.postHead}>
+                                <div
+                                  className={styles.postAuthor}
+                                  onClick={() => handleClickPost(post)}
+                                >
+                                  {post.authorUsername}
+                                </div>
+                                <button
+                                  onClick={() => {
+                                    handleClickAddFriend(
+                                      post.authorId,
+                                      post.authorUsername,
+                                      data.userData.id
+                                    );
+                                  }}
+                                >
+                                  Adicionar Amigo
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </h2>
+                  </div>
                 </div>
 
                 <p className={styles.postBody}>{post.body}</p>
                 <div className={styles.bottomPost}>
-                  <div
-                    className={styles.comments}
-                  >
+                  <div className={styles.comments}>
                     <Image
                       src={"/comment.png"}
                       height="24"
@@ -210,11 +283,21 @@ function User({ data }: any) {
                           <div className={styles.comment}>
                             {" "}
                             {data.userData.id == comment.authorId ? (
-                              <p className={styles.commentAuthor} onClick={()=>{handleClickCommentAuthor(comment)}}>
+                              <p
+                                className={styles.commentAuthor}
+                                onClick={() => {
+                                  handleClickCommentAuthor(comment);
+                                }}
+                              >
                                 {comment.authorUsername} (Você):{" "}
                               </p>
                             ) : (
-                              <p className={styles.commentAuthor} onClick={()=>{handleClickCommentAuthor(comment)}}>
+                              <p
+                                className={styles.commentAuthor}
+                                onClick={() => {
+                                  handleClickCommentAuthor(comment);
+                                }}
+                              >
                                 {comment.authorUsername}:{" "}
                               </p>
                             )}

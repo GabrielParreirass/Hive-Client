@@ -62,6 +62,20 @@
   padding-right: 2em;
 }
 
+.postHead{
+  display: flex;
+}
+
+.postHead button{
+  margin-left: 1em;
+  background-color: transparent;
+  border: 2px solid #f2ac3c;
+  border-radius: 10px;
+  padding: .5em;
+  box-shadow: 1px 2px 5px grey;
+  cursor: pointer;
+}
+
 .postAuthor {
   color: #f2ac3c;
   cursor: pointer;
