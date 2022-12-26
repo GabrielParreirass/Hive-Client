@@ -98,9 +98,19 @@ function User({ data }: any) {
       })
       .then((res) => {
         console.log(res);
+        toast.success("Comentário publicado com sucesso!", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        Router.push("/user");
       });
 
-    Router.push("/user");
     input.value = "";
   };
 
@@ -113,31 +123,58 @@ function User({ data }: any) {
     authorUsername: string,
     loggedUserId: string
   ) => {
-    // axios
-    //   .post(API_URL + "/addFriend", {
-    //     friendId: authorId,
-    //     loggedUserId: loggedUserId,
-    //   })
-    //   .then((res) => {
-    //     console.log(res)
-    //   });
+    axios
+      .post(API_URL + "/addFriend", {
+        friendId: authorId,
+        friendUsername: authorUsername,
+        loggedUserId: loggedUserId,
+      })
+      .then((res) => {
+        console.log(res);
+        toast.success(
+          `${authorUsername} foi adicionado a sua lista de amigos!`,
+          {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          }
+        );
+        Router.push("/user");
+      });
+  };
 
-    const isAlreadyFriend = data.userData.friends.findIndex(
-      (friend: { friendId: string }) => friend.friendId == authorId
-    );
+  const handleClickRemoveFriend = (
+    toBeRemovedId: string,
+    loggedUserId: string
+  ) => {
 
-    if (isAlreadyFriend >= 0) {
-      console.log("Já é amigo dele");
-    } else {
-      console.log("Não é amigo dele ainda");
-    }
 
-    console.log({
-      authorId: authorId,
-      authorUsername: authorUsername,
-      loggedUserId: loggedUserId,
-      isAlreadyFriend,
-    });
+    axios.post(API_URL + "/removeFriend", {
+      toBeRemovedId: toBeRemovedId,
+      loggedUserId: loggedUserId
+    }).then(res=>{
+      console.log(res.data)
+      toast.warn(
+        `Amigo removido com sucesso`,
+        {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        }
+      );
+      Router.push("/user");
+    })
+
   };
 
   console.log(data);
@@ -224,7 +261,17 @@ function User({ data }: any) {
                                 >
                                   {post.authorUsername}
                                 </div>
-                                <button>Já é amigo</button>
+                                <button
+                                  className={styles.alreadyFriend}
+                                  onClick={() => {
+                                    handleClickRemoveFriend(
+                                      post.authorId,
+                                      data.userData.id
+                                    );
+                                  }}
+                                >
+                                  Remover amigo
+                                </button>
                               </div>
                             </div>
                           ) : (
@@ -244,6 +291,7 @@ function User({ data }: any) {
                                       data.userData.id
                                     );
                                   }}
+                                  className={styles.notFriendYet}
                                 >
                                   Adicionar Amigo
                                 </button>

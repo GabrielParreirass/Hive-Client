@@ -66,10 +66,20 @@
   display: flex;
 }
 
-.postHead button{
+.notFriendYet{
   margin-left: 1em;
   background-color: transparent;
   border: 2px solid #f2ac3c;
+  border-radius: 10px;
+  padding: .5em;
+  box-shadow: 1px 2px 5px grey;
+  cursor: pointer;
+}
+
+.alreadyFriend{
+  margin-left: 1em;
+  background-color: transparent;
+  border: 2px solid #f23c3c;
   border-radius: 10px;
   padding: .5em;
   box-shadow: 1px 2px 5px grey;
