@@ -36,6 +36,8 @@ function User({ userData }: any) {
     });
   };
 
+  console.log(userData.userData.friends)
+
   return (
     <div className={styles.MainContainer}>
       <div className={styles.welcome}>
@@ -66,11 +68,11 @@ function User({ userData }: any) {
       </div>
 
       <div className={styles.friendsContainer}>
-        <h2>Você é amigo de {userData.userData.friends.length} pessoas</h2>
+        <h2>Você é amigo de {userData.userData.friends.length} pessoas:</h2>
         <br />
         {userData.userData.friends.map(
-          (friend: { id: string; username: string }) => (
-            <h3>{friend.username}</h3>
+          (friend: { id: string; friendUsername: string }) => (
+            <h3>- {friend.friendUsername}</h3>
           )
         )}
       </div>

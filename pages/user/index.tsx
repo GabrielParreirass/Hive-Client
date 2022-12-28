@@ -34,6 +34,16 @@ function User({ data }: any) {
   useEffect(() => {
     let modal: any = document.getElementById("modal");
     modal.style.display = "none";
+
+    const lastPost: any = localStorage.getItem("lastPost");
+
+    const lastPostElement = document.getElementById(lastPost);
+
+    if (lastPostElement) {
+      lastPostElement.scrollIntoView({ behavior: "smooth" });
+    }
+
+    localStorage.removeItem("lastPost");
   }, []);
 
   const [title, setTitle] = useState("");
@@ -152,16 +162,14 @@ function User({ data }: any) {
     toBeRemovedId: string,
     loggedUserId: string
   ) => {
-
-
-    axios.post(API_URL + "/removeFriend", {
-      toBeRemovedId: toBeRemovedId,
-      loggedUserId: loggedUserId
-    }).then(res=>{
-      console.log(res.data)
-      toast.warn(
-        `Amigo removido com sucesso`,
-        {
+    axios
+      .post(API_URL + "/removeFriend", {
+        toBeRemovedId: toBeRemovedId,
+        loggedUserId: loggedUserId,
+      })
+      .then((res) => {
+        console.log(res.data);
+        toast.warn(`Amigo removido com sucesso`, {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -170,14 +178,61 @@ function User({ data }: any) {
           draggable: true,
           progress: undefined,
           theme: "colored",
-        }
-      );
-      Router.push("/user");
-    })
-
+        });
+        Router.push("/user");
+      });
   };
 
-  console.log(data);
+  const handleClickLike = (
+    postId: string,
+    likeAuthorId: string,
+    likeAuthorUsername: string
+  ) => {
+    axios
+      .post(API_URL + "/addLike", {
+        postId: postId,
+        likeAuthorId: likeAuthorId,
+        likeAuthorUsername: likeAuthorUsername,
+      })
+      .then((res) => {
+        console.log(res);
+        toast.success(`Post curtido!`, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        localStorage.setItem("lastPost", postId);
+        Router.reload();
+      });
+  };
+
+  const handleRemoveLike = (postId: string, likeAuthorId: string) => {
+    axios
+      .patch(API_URL + "/removeLike", {
+        postId: postId,
+        likeAuthorId: likeAuthorId,
+      })
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem("lastPost", postId);
+        toast.warn(`Curtida removida!`, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        Router.reload();
+      });
+  };
 
   return (
     <>
@@ -234,8 +289,9 @@ function User({ data }: any) {
               id: string;
               body: string;
               title: string;
+              likes: [{ likeAuthorId: string; likeAuthorUsername: string }];
             }) => (
-              <div className={styles.post}>
+              <div className={styles.post} id={post.id}>
                 <div className={styles.postHeader}>
                   <h2 className={styles.postTitle}>{post.title}</h2>
                   <div>
@@ -315,12 +371,44 @@ function User({ data }: any) {
                     ></Image>
                   </div>
                   <div className={styles.likes}>
-                    <Image
-                      src={"/like.png"}
-                      height="24"
-                      width="24"
-                      alt="like"
-                    ></Image>
+                    <div className={styles.likeContainer}>
+                      {post.likes.findIndex(
+                        (likes) => likes.likeAuthorId == data.userData.id
+                      ) != -1 ? (
+                        <div>
+                          <Image
+                            src={"/likeFill.png"}
+                            height="24"
+                            width="24"
+                            alt="like"
+                            onClick={() =>
+                              handleRemoveLike(post.id, data.userData.id)
+                            }
+                          ></Image>
+                        </div>
+                      ) : (
+                        <div>
+                          {" "}
+                          <Image
+                            src={"/like.png"}
+                            height="24"
+                            width="24"
+                            alt="like"
+                            onClick={() =>
+                              handleClickLike(
+                                post.id,
+                                data.userData.id,
+                                data.userData.username
+                              )
+                            }
+                          ></Image>
+                        </div>
+                      )}
+
+                      <div className={styles.likesCounter}>
+                        {post.likes.length}
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className={styles.commentsContainer}>
@@ -407,6 +495,8 @@ function User({ data }: any) {
         pauseOnHover
         theme="colored"
       />
+
+      <div id="last">Ultima coisa da pagina</div>
     </>
   );
 }

@@ -249,3 +249,13 @@
 .commentAuthor:hover{
   text-decoration: underline;
 }
+
+.likeContainer{
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+}
+
+.likesCounter{
+  margin-left: .2em;
+}
