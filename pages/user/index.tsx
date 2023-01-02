@@ -48,6 +48,7 @@ function User({ data }: any) {
 
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [posts, setPosts] = useState(data.posts);
 
   const handleClickPost = (post: { authorId: string }) => {
     Router.push(`/user/perfil/${post.authorId}`);
@@ -179,7 +180,7 @@ function User({ data }: any) {
           progress: undefined,
           theme: "colored",
         });
-        Router.push("/user");
+        Router.reload();
       });
   };
 
@@ -234,6 +235,32 @@ function User({ data }: any) {
       });
   };
 
+  const handleSetFilter = () => {
+      setPosts(posts.filter(
+        (post: any) =>
+          data.userData.friends.findIndex(
+            (friend: any) => friend.friendId == post.authorId
+          ) > -1
+      ))
+
+      const btn = document.getElementById('filter1')
+      btn!.style.display = 'none'
+
+      const btn2 = document.getElementById('filter2')
+      btn2!.style.display = 'flex'
+
+  };
+
+  const handleClearFilter = () =>{
+    setPosts(data.posts)
+
+    const btn = document.getElementById('filter1')
+    btn!.style.display = 'flex'
+
+    const btn2 = document.getElementById('filter2')
+    btn2!.style.display = 'none'
+  }
+
   return (
     <>
       <div className={styles.MainContainer}>
@@ -281,8 +308,11 @@ function User({ data }: any) {
 
         <div className={styles.postsContainer}>
           <h2>Posts mais recentes🔥</h2>
+          <button onClick={() => handleSetFilter()} id='filter1'  className={styles.filter1}>Apenas amigos</button>
+          <button onClick={() => handleClearFilter()}  id='filter2'  className={styles.filter2}>Todas as publicações</button>
 
-          {data.posts.map(
+
+          {posts.map(
             (post: {
               authorId: string;
               authorUsername: string;
@@ -495,8 +525,6 @@ function User({ data }: any) {
         pauseOnHover
         theme="colored"
       />
-
-      <div id="last">Ultima coisa da pagina</div>
     </>
   );
 }
