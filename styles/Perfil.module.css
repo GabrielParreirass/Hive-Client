@@ -67,3 +67,27 @@
 }
 
 
+@media (max-width: 1200px) {
+
+
+    .postsContainer{
+        width: 90%;
+        margin: auto;
+    
+    }
+
+    .post{
+        margin-top: 1em;
+        margin-bottom: 1em;
+        text-align: left;
+        background-color: white;
+        padding: 2em;
+        border-radius: 3px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+    }
+}
+
+
